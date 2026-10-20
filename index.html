@@ -9,111 +9,159 @@
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts: Poppins & Scheherazade New -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Scheherazade+New:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Scheherazade+New:wght@700&display=swap" rel="stylesheet">
+    
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
+        html { scroll-behavior: smooth; }
         body { 
             font-family: 'Poppins', sans-serif; 
+            background-color: #fffdfa;
+            overflow-x: hidden;
         }
-        .font-arabic { 
-            font-family: 'Scheherazade New', serif; 
+
+        /* 1. ANIMASI MEMBAL / TUING-TUING (AOS / Scroll Effects) */
+        .tuing-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            transform: translateY(50px) scale(0.9) rotate(-2deg);
         }
-        .bg-ramadhan {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        
+        .tuing-card.show {
+            opacity: 1;
+            transform: translateY(0) scale(1) rotate(0deg);
         }
-        /* Offset agar judul section tidak tertutup navbar fixed */
-        section {
-            scroll-margin-top: 80px;
+
+        /* Efek Tuing-Tuing saat Hover & Click */
+        .tuing-hover:hover {
+            transform: translateY(-8px) scale(1.03) rotate(1.5deg) !important;
+            box-shadow: 0 15px 30px rgba(112, 0, 0, 0.2);
         }
+
+        .tuing-hover:active {
+            transform: scale(0.92) rotate(-2deg) !important;
+        }
+
+        /* 2. SPONSOR RUNNING CAROUSEL / SLIDER (20 LOGO SLOTS) */
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .marquee-content {
+            flex-shrink: 0;
+            display: flex;
+            justify-content: space-around;
+            min-width: 100%;
+            gap: 1.5rem;
+            animation: scroll 35s linear infinite;
+        }
+
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+
+        /* Penyesuaian Otomatis Gambar Logo (Auto Aspect-Ratio Fit) */
+        .sponsor-box {
+            width: 140px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 2px solid #f59e0b;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .sponsor-box img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain; /* Nyesuaiin gambar otomatis biar ga penyok */
+        }
+
+        section { scroll-margin-top: 70px; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="text-slate-800">
 
     <!-- Header / Navbar -->
-    <header class="fixed w-full bg-slate-900/90 backdrop-blur-md text-white z-50 shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <!-- Logo Granada dari file PNG -->
-            <a href="#hero" class="flex items-center space-x-3">
-                <img src="logo.png" alt="Logo Granada" class="h-10 w-auto object-contain">
-                <span class="font-bold text-xl tracking-wider text-amber-400">GRANADA 1447H</span>
+    <header class="fixed w-full bg-[#fdf6e3]/95 backdrop-blur-md text-[#700000] z-50 shadow-md border-b border-amber-300/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <a href="#hero" class="flex items-center space-x-3 tuing-hover">
+                <img src="logo.png" alt="Logo Granada" class="h-8 sm:h-10 w-auto object-contain">
+                <img src="logo_tulisan.png" alt="GRANADA" class="h-6 sm:h-8 w-auto object-contain">
             </a>
             
-            <!-- Navigation Links -->
-            <nav class="hidden md:flex space-x-8 text-sm font-medium">
-                <a href="#hero" class="hover:text-amber-400 transition duration-300">Beranda</a>
-                <a href="#tentang" class="hover:text-amber-400 transition duration-300">Tentang Kami</a>
-                <a href="#agenda" class="hover:text-amber-400 transition duration-300">Agenda Acara</a>
-                <a href="#sponsorship" class="hover:text-amber-400 transition duration-300">Sponsorship</a>
-                <a href="#kontak" class="hover:text-amber-400 transition duration-300">Kontak</a>
+            <nav class="hidden md:flex space-x-8 text-sm font-semibold">
+                <a href="#hero" class="hover:text-amber-600 transition">Beranda</a>
+                <a href="#tentang" class="hover:text-amber-600 transition">Tentang Kami</a>
+                <a href="#agenda" class="hover:text-amber-600 transition">Agenda Acara</a>
+                <a href="#sponsor-lampau" class="hover:text-amber-600 transition">Sponsor Kami</a>
+                <a href="#sponsorship" class="hover:text-amber-600 transition">Sponsorship</a>
+                <a href="#kontak" class="hover:text-amber-600 transition">Kontak</a>
             </nav>
             
-            <!-- Button Dukung Kami -->
-            <a href="#sponsorship" class="hidden sm:inline-block bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-4 py-2 rounded-lg transition duration-300">
+            <a href="#sponsorship" class="hidden sm:inline-block bg-[#700000] hover:bg-[#900000] text-[#fdf6e3] font-bold px-4 py-2 rounded-lg tuing-hover shadow">
                 Dukung Kami
             </a>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="relative pt-32 pb-20 md:pt-40 md:pb-28 bg-ramadhan text-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-            <p class="font-arabic text-3xl sm:text-4xl text-amber-300 mb-2">رَمَضَانُ كَرِيمٌ</p>
-            <span class="inline-block bg-amber-500/20 text-amber-300 border border-amber-500/30 px-4 py-1 rounded-full text-sm font-semibold mb-4">
-                14 Februari - 5 Maret 2026
-            </span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4">
-                GRANADA <span class="text-amber-400">1447 H</span>
-            </h1>
-            <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto mb-8">
-                "Membawa Kebahagiaan, Kepedulian, dan Kebermanfaatan di Bulan Ramadhan"
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#agenda" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-3 rounded-xl transition shadow-lg">
-                    Lihat Agenda
-                </a>
-                <a href="#kontak" class="border border-slate-400 hover:border-amber-400 hover:text-amber-400 px-6 py-3 rounded-xl transition">
-                    Hubungi Panitia
-                </a>
-            </div>
+    <!-- Hero Section dengan Banner Full & Gradasi Hitam -->
+    <section id="hero" class="relative w-full h-[60vh] sm:h-[75vh] md:h-[85vh] pt-16 flex items-center justify-center overflow-hidden">
+        <img src="banner.png" alt="Banner Granada" class="absolute inset-0 w-full h-full object-cover object-center">
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-black/60 flex items-center justify-center p-4">
+            <img src="logo_tulisan.png" alt="Logo Tulisan Granada" class="h-20 sm:h-32 md:h-44 w-auto object-contain filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.9)] tuing-hover cursor-pointer">
         </div>
     </section>
 
     <!-- Tentang Kami Section -->
-    <section id="tentang" class="py-16 bg-white">
+    <section id="tentang" class="py-16 bg-[#fdf6e3]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Tentang GRANADA</h2>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded"></div>
+            <div class="text-center mb-12 tuing-card">
+                <h2 class="text-3xl font-bold text-[#700000]">Tentang GRANADA</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
             </div>
             <div class="grid md:grid-cols-2 gap-8 items-center">
-                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100 shadow-sm">
-                    <h3 class="text-xl font-bold text-slate-800 mb-3">Gerakan Ramadhan Anak Muda</h3>
-                    <p class="text-slate-600 leading-relaxed mb-4">
-                        GRANADA adalah wadah kreasi dan kontribusi sosial yang diinisiasi oleh siswa-siswi <strong>SMA Masa Depan Yogyakarta</strong>. Gerakan ini bertujuan menghadirkan kegiatan Ramadhan yang berkesan, menyenangkan, serta memberikan dampak positif yang nyata bagi masyarakat sekitar.
+                <div class="bg-white p-6 rounded-2xl border border-amber-200/60 shadow-sm tuing-card tuing-hover">
+                    <h3 class="text-xl font-bold text-[#700000] mb-3">Gerakan Ramadhan Anak Muda</h3>
+                    <p class="text-slate-700 leading-relaxed mb-4">
+                        GRANADA adalah wadah kreasi dan kontribusi sosial yang diinisiasi oleh siswa-siswi <strong>SMA Masa Depan Yogyakarta</strong>[cite: 1, 7]. Gerakan ini bertujuan menghadirkan kegiatan Ramadhan yang berkesan, menyenangkan, serta memberikan dampak positif yang nyata bagi masyarakat sekitar[cite: 1, 7].
                     </p>
-                    <p class="text-slate-600 leading-relaxed">
-                        Diinspirasi dari benteng peradaban Granada, kami bertekad menjadikan momen Ramadhan sebagai sarana pembentukan karakter pemuda yang peduli, aktif, dan bermanfaat.
+                    <p class="text-slate-700 leading-relaxed">
+                        Diinspirasi dari benteng peradaban Granada, kami bertekad menjadikan momen Ramadhan sebagai sarana pembentukan karakter pemuda yang peduli, aktif, dan bermanfaat[cite: 1, 7].
                     </p>
                 </div>
                 <div class="space-y-4">
-                    <div class="flex items-start space-x-4 p-4 bg-amber-50 rounded-xl border border-amber-100">
-                        <div class="p-3 bg-amber-500 text-slate-900 rounded-lg">
+                    <div class="flex items-start space-x-4 p-4 bg-amber-100/60 rounded-xl border border-amber-200 tuing-card tuing-hover">
+                        <div class="p-3 bg-[#700000] text-amber-300 rounded-lg shadow">
                             <i class="fas fa-heart text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-semibold text-slate-800">Kepedulian Sosial</h4>
-                            <p class="text-sm text-slate-600">Penyaluran bantuan pangan dan kepedulian terhadap masyarakat serta panti asuhan.</p>
+                            <h4 class="font-semibold text-[#700000]">Kepedulian Sosial</h4>
+                            <p class="text-sm text-slate-700">Penyaluran bantuan pangan dan kepedulian terhadap masyarakat serta panti asuhan[cite: 1, 7].</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
-                        <div class="p-3 bg-blue-600 text-white rounded-lg">
+                    <div class="flex items-start space-x-4 p-4 bg-red-100/50 rounded-xl border border-red-200 tuing-card tuing-hover">
+                        <div class="p-3 bg-amber-500 text-amber-950 rounded-lg shadow">
                             <i class="fas fa-users text-xl"></i>
                         </div>
                         <div>
-                            <h4 class="font-semibold text-slate-800">Ukhuwah Islamiyah</h4>
-                            <p class="text-sm text-slate-600">Mempererat tali silaturahmi antar generasi muda, warga sekolah, dan masyarakat luas.</p>
+                            <h4 class="font-semibold text-[#700000]">Ukhuwah Islamiyah</h4>
+                            <p class="text-sm text-slate-700">Mempererat tali silaturahmi antar generasi muda, warga sekolah, dan masyarakat luas[cite: 1, 7].</p>
                         </div>
                     </div>
                 </div>
@@ -122,51 +170,105 @@
     </section>
 
     <!-- Agenda Acara Section -->
-    <section id="agenda" class="py-16 bg-slate-100">
+    <section id="agenda" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Rangkaian Agenda</h2>
+            <div class="text-center mb-12 tuing-card">
+                <h2 class="text-3xl font-bold text-[#700000]">Rangkaian Agenda</h2>
                 <p class="text-slate-600 mt-2">Kegiatan-kegiatan seru dan penuh berkah selama bulan Ramadhan</p>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded"></div>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">14 Februari 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Cleaning Masjid</h3>
-                    <p class="text-sm text-slate-600">Kegiatan membersihkan dan mempersiapkan tempat ibadah menjelang datangnya bulan suci Ramadhan.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">14 Februari 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Cleaning Masjid</h3>
+                    <p class="text-sm text-slate-700">Kegiatan membersihkan dan mempersiapkan tempat ibadah menjelang datangnya bulan suci Ramadhan[cite: 1, 7].</p>
                 </div>
-                <!-- Card 2 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">16 Februari 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Tarhib Ramadhan</h3>
-                    <p class="text-sm text-slate-600">Pawai obor, penampilan hadroh, dan penyambutan meriah datangnya bulan suci Ramadhan.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">16 Februari 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Tarhib Ramadhan</h3>
+                    <p class="text-sm text-slate-700">Pawai obor, penampilan hadroh, dan penyambutan meriah datangnya bulan suci Ramadhan[cite: 1, 7].</p>
                 </div>
-                <!-- Card 3 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">21 Februari 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Ramadhan Berbagi Sayur Gratis (RBSG)</h3>
-                    <p class="text-sm text-slate-600">Aksi sosial membantu petani lokal dan membagikan sayuran segar secara gratis kepada panti asuhan & warga.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">21 Februari 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Ramadhan Berbagi Sayur Gratis (RBSG)</h3>
+                    <p class="text-sm text-slate-700">Aksi sosial membantu petani lokal dan membagikan sayuran segar secara gratis[cite: 1, 7].</p>
                 </div>
-                <!-- Card 4 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">22 Februari 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Takjil On The Road</h3>
-                    <p class="text-sm text-slate-600">Pembagian 400+ porsi paket takjil dan makanan berbuka puasa di jalan raya untuk masyarakat umum.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">22 Februari 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Takjil On The Road</h3>
+                    <p class="text-sm text-slate-700">Pembagian 400+ porsi paket takjil dan makanan berbuka puasa di jalan raya[cite: 1, 7].</p>
                 </div>
-                <!-- Card 5 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">23 Februari 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Mendongeng Asik & Lomba TPA</h3>
-                    <p class="text-sm text-slate-600">Acara edukatif dan interaktif untuk anak-anak TPA bersama pendongeng narasumber handal.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">23 Februari 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Mendongeng Asik & Lomba TPA</h3>
+                    <p class="text-sm text-slate-700">Acara edukatif dan interaktif untuk anak-anak TPA bersama pendongeng[cite: 1, 7].</p>
                 </div>
-                <!-- Card 6 -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                    <div class="text-xs font-semibold text-amber-600 bg-amber-50 px-3 py-1 rounded-full w-max mb-3">5 Maret 2026</div>
-                    <h3 class="text-lg font-bold text-slate-800 mb-2">Closing Night & Barbeque</h3>
-                    <p class="text-sm text-slate-600">Malam puncak penutupan dan kebersamaan seluruh panitia dan keluarga besar SMA Masa Depan.</p>
+                <div class="bg-[#fdf6e3] p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <div class="text-xs font-semibold text-amber-900 bg-amber-300/60 px-3 py-1 rounded-full w-max mb-3">5 Maret 2026</div>
+                    <h3 class="text-lg font-bold text-[#700000] mb-2">Closing Night & Barbeque</h3>
+                    <p class="text-sm text-slate-700">Malam puncak penutupan dan kebersamaan seluruh panitia dan keluarga besar SMA Masa Depan[cite: 1, 7].</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION SPONSOR TAHUN LALU (RUNNING SLIDER 20 LOGO SLOTS) -->
+    <section id="sponsor-lampau" class="py-16 bg-[#fdf6e3] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8 text-center tuing-card">
+            <h2 class="text-3xl font-bold text-[#700000]">Sponsor & Mitra Granada</h2>
+            <p class="text-slate-600 mt-2">Terima kasih kepada pendukung dan mitra acara Granada</p>
+            <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
+        </div>
+
+        <!-- Marquee Running Carousel -->
+        <div class="marquee-container py-4">
+            <div class="marquee-content">
+                <!-- Slot Logo 1 - 20 (Simpan file sponsor1.png s/d sponsor20.png di folder repository) -->
+                <div class="sponsor-box tuing-hover"><img src="sponsor1.png" alt="Sponsor 1" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor2.png" alt="Sponsor 2" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor3.png" alt="Sponsor 3" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor4.png" alt="Sponsor 4" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor5.png" alt="Sponsor 5" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor6.png" alt="Sponsor 6" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor7.png" alt="Sponsor 7" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor8.png" alt="Sponsor 8" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor9.png" alt="Sponsor 9" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor10.png" alt="Sponsor 10" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor11.png" alt="Sponsor 11" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor12.png" alt="Sponsor 12" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor13.png" alt="Sponsor 13" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor14.png" alt="Sponsor 14" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor15.png" alt="Sponsor 15" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor16.png" alt="Sponsor 16" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor17.png" alt="Sponsor 17" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor18.png" alt="Sponsor 18" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor19.png" alt="Sponsor 19" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor20.png" alt="Sponsor 20" onerror="this.src='logo.png'"></div>
+            </div>
+
+            <!-- Duplicate untuk Efek Infinite Loop yang Mulus -->
+            <div class="marquee-content" aria-hidden="true">
+                <div class="sponsor-box tuing-hover"><img src="sponsor1.png" alt="Sponsor 1" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor2.png" alt="Sponsor 2" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor3.png" alt="Sponsor 3" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor4.png" alt="Sponsor 4" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor5.png" alt="Sponsor 5" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor6.png" alt="Sponsor 6" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor7.png" alt="Sponsor 7" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor8.png" alt="Sponsor 8" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor9.png" alt="Sponsor 9" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor10.png" alt="Sponsor 10" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor11.png" alt="Sponsor 11" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor12.png" alt="Sponsor 12" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor13.png" alt="Sponsor 13" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor14.png" alt="Sponsor 14" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor15.png" alt="Sponsor 15" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor16.png" alt="Sponsor 16" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor17.png" alt="Sponsor 17" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor18.png" alt="Sponsor 18" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor19.png" alt="Sponsor 19" onerror="this.src='logo.png'"></div>
+                <div class="sponsor-box tuing-hover"><img src="sponsor20.png" alt="Sponsor 20" onerror="this.src='logo.png'"></div>
             </div>
         </div>
     </section>
@@ -174,100 +276,116 @@
     <!-- Sponsorship Section -->
     <section id="sponsorship" class="py-16 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Paket Sponsorship</h2>
-                <p class="text-slate-600 mt-2">Mari berpartisipasi dan berkontribusi mendukung suksesnya acara GRANADA 1447 H</p>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded"></div>
+            <div class="text-center mb-12 tuing-card">
+                <h2 class="text-3xl font-bold text-[#700000]">Paket Sponsorship</h2>
+                <p class="text-slate-600 mt-2">Mari berpartisipasi dan berkontribusi mendukung suksesnya acara GRANADA 1447 H[cite: 1, 7]</p>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
             </div>
 
             <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <!-- Paket Kolak -->
-                <div class="border border-slate-200 rounded-xl p-5 text-center hover:border-amber-500 transition">
-                    <h3 class="font-bold text-lg text-slate-800">Paket Kolak</h3>
+                <div class="bg-[#fdf6e3] border border-amber-200 rounded-xl p-5 text-center tuing-card tuing-hover shadow-sm">
+                    <h3 class="font-bold text-lg text-[#700000]">Paket Kolak</h3>
                     <p class="text-xs text-slate-500 mb-3">Dukungan Dana</p>
-                    <p class="text-amber-600 font-bold text-sm">Rp500k - Rp999k</p>
+                    <p class="text-amber-600 font-bold text-sm">Rp500k - Rp999k[cite: 1, 7]</p>
                 </div>
-                <!-- Paket Es Buah -->
-                <div class="border border-slate-200 rounded-xl p-5 text-center hover:border-amber-500 transition">
-                    <h3 class="font-bold text-lg text-slate-800">Paket Es Buah</h3>
+                <div class="bg-[#fdf6e3] border border-amber-200 rounded-xl p-5 text-center tuing-card tuing-hover shadow-sm">
+                    <h3 class="font-bold text-lg text-[#700000]">Paket Es Buah</h3>
                     <p class="text-xs text-slate-500 mb-3">Dukungan Dana</p>
-                    <p class="text-amber-600 font-bold text-sm">Rp1,0M - Rp3,4M</p>
+                    <p class="text-amber-600 font-bold text-sm">Rp1,0M - Rp3,4M[cite: 1, 7]</p>
                 </div>
-                <!-- Paket Gorengan -->
-                <div class="border border-slate-200 rounded-xl p-5 text-center hover:border-amber-500 transition">
-                    <h3 class="font-bold text-lg text-slate-800">Paket Gorengan</h3>
+                <div class="bg-[#fdf6e3] border border-amber-200 rounded-xl p-5 text-center tuing-card tuing-hover shadow-sm">
+                    <h3 class="font-bold text-lg text-[#700000]">Paket Gorengan</h3>
                     <p class="text-xs text-slate-500 mb-3">Dukungan Dana</p>
-                    <p class="text-amber-600 font-bold text-sm">Rp3,5M - Rp3,9M</p>
+                    <p class="text-amber-600 font-bold text-sm">Rp3,5M - Rp3,9M[cite: 1, 7]</p>
                 </div>
-                <!-- Paket Ketupat -->
-                <div class="border border-slate-200 rounded-xl p-5 text-center hover:border-amber-500 transition">
-                    <h3 class="font-bold text-lg text-slate-800">Paket Ketupat</h3>
+                <div class="bg-[#fdf6e3] border border-amber-200 rounded-xl p-5 text-center tuing-card tuing-hover shadow-sm">
+                    <h3 class="font-bold text-lg text-[#700000]">Paket Ketupat</h3>
                     <p class="text-xs text-slate-500 mb-3">Dukungan Dana</p>
-                    <p class="text-amber-600 font-bold text-sm">Rp4,0M - Rp4,9M</p>
+                    <p class="text-amber-600 font-bold text-sm">Rp4,0M - Rp4,9M[cite: 1, 7]</p>
                 </div>
-                <!-- Paket Opor Ayam -->
-                <div class="border-2 border-amber-500 bg-amber-50/30 rounded-xl p-5 text-center shadow-sm">
-                    <h3 class="font-bold text-lg text-slate-800">Paket Opor Ayam</h3>
-                    <p class="text-xs text-slate-500 mb-3">Sponsor Utama</p>
-                    <p class="text-amber-600 font-bold text-sm">≥ Rp5.000.000</p>
+                <div class="border-2 border-amber-500 bg-gradient-to-b from-amber-100 to-amber-200/50 rounded-xl p-5 text-center tuing-card tuing-hover shadow-md">
+                    <h3 class="font-bold text-lg text-[#700000]">Paket Opor Ayam</h3>
+                    <p class="text-xs text-amber-900 font-medium mb-3">Sponsor Utama</p>
+                    <p class="text-[#700000] font-bold text-sm">≥ Rp5.000.000[cite: 1, 7]</p>
                 </div>
             </div>
 
             <!-- Rekening Pembayaran -->
-            <div class="mt-12 bg-slate-900 text-white p-8 rounded-2xl max-w-2xl mx-auto text-center">
-                <h3 class="text-lg font-semibold text-amber-400 mb-2">Transfer Donasi & Sponsorship</h3>
-                <p class="text-slate-300 text-sm mb-4">Bank Mandiri</p>
-                <div class="bg-slate-800 py-3 px-6 rounded-lg inline-block text-2xl font-mono tracking-wider text-amber-300 font-bold mb-2">
-                    1570013395075
+            <div class="mt-12 bg-[#700000] text-white p-8 rounded-2xl max-w-2xl mx-auto text-center border-2 border-amber-400/50 shadow-xl tuing-card tuing-hover">
+                <h3 class="text-lg font-semibold text-amber-300 mb-2">Transfer Donasi & Sponsorship</h3>
+                <p class="text-amber-100 text-sm mb-4">Bank Mandiri</p>
+                <div class="bg-[#500000] py-3 px-6 rounded-lg inline-block text-2xl font-mono tracking-wider text-amber-300 font-bold mb-2 border border-amber-500/30">
+                    1570013395075[cite: 1, 7]
                 </div>
-                <p class="text-xs text-slate-400">a.n Hylmi Satria Pradipta</p>
+                <p class="text-xs text-amber-200/80">a.n Hylmi Satria Pradipta[cite: 1, 7]</p>
             </div>
         </div>
     </section>
 
     <!-- Kontak Section -->
-    <section id="kontak" class="py-16 bg-slate-100">
+    <section id="kontak" class="py-16 bg-[#fdf6e3]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Hubungi Kami</h2>
-                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded"></div>
+            <div class="text-center mb-12 tuing-card">
+                <h2 class="text-3xl font-bold text-[#700000]">Hubungi Kami</h2>
+                <div class="w-16 h-1 bg-amber-500 mx-auto mt-2 rounded-full"></div>
             </div>
 
             <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4">Informasi Kontak & Narahubung</h3>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <h3 class="font-bold text-lg text-[#700000] mb-4">Informasi Kontak & Narahubung</h3>
                     <ul class="space-y-4">
-                        <li class="flex items-center space-x-3 text-slate-600">
-                            <i class="fab fa-whatsapp text-emerald-500 text-xl"></i>
-                            <span>Danish (Ketua): <strong>0812-2220-1484</strong></span>
+                        <li class="flex items-center space-x-3 text-slate-700">
+                            <i class="fab fa-whatsapp text-emerald-600 text-xl"></i>
+                            <span>Danish (Ketua): <strong>0812-2220-1484</strong>[cite: 1, 7]</span>
                         </li>
-                        <li class="flex items-center space-x-3 text-slate-600">
-                            <i class="fab fa-whatsapp text-emerald-500 text-xl"></i>
-                            <span>Farhan (Humas): <strong>0852-5728-7699</strong></span>
+                        <li class="flex items-center space-x-3 text-slate-700">
+                            <i class="fab fa-whatsapp text-emerald-600 text-xl"></i>
+                            <span>Farhan (Humas): <strong>0852-5728-7699</strong>[cite: 1, 7]</span>
                         </li>
-                        <li class="flex items-center space-x-3 text-slate-600">
-                            <i class="fas fa-envelope text-blue-500 text-xl"></i>
-                            <span>granada.mubarak@gmail.com</span>
+                        <li class="flex items-center space-x-3 text-slate-700">
+                            <i class="fas fa-envelope text-[#700000] text-xl"></i>
+                            <span>granada.mubarak@gmail.com[cite: 1, 7]</span>
                         </li>
                     </ul>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4">Lokasi Sekretariat</h3>
-                    <p class="text-slate-600 text-sm leading-relaxed mb-3">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-amber-200 tuing-card tuing-hover">
+                    <h3 class="font-bold text-lg text-[#700000] mb-4">Lokasi Sekretariat</h3>
+                    <p class="text-slate-700 text-sm leading-relaxed mb-3">
                         <strong>SMA Masa Depan Yogyakarta</strong><br>
-                        Jl. Candi Sambisari, Kadirojo I, Purwomartani, Kalasan, Sleman, D.I. Yogyakarta.
+                        Jl. Candi Sambisari, Kadirojo I, Purwomartani, Kalasan, Sleman, D.I. Yogyakarta[cite: 1, 7].
                     </p>
-                    <p class="text-xs text-slate-400">Penyelenggara: Panitia GRANADA 1447 H - Siswa SMA Masa Depan</p>
+                    <p class="text-xs text-amber-800/80">Penyelenggara: Panitia GRANADA 1447 H - Siswa SMA Masa Depan[cite: 1, 7]</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 text-center text-sm">
-        <p>&copy; 2026 GRANADA - Gerakan Ramadhan Anak Muda. SMA Masa Depan Yogyakarta.</p>
+    <footer class="bg-[#500000] text-amber-200/80 py-8 text-center text-sm border-t border-amber-500/20">
+        <p>&copy; 2026 GRANADA - Gerakan Ramadhan Anak Muda. SMA Masa Depan Yogyakarta[cite: 1, 7].</p>
     </footer>
 
+    <!-- JavaScript untuk Efek Membal (Tuing-Tuing) saat di-Scroll -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                    }
+                });
+            }, observerOptions);
+
+            const tuingElements = document.querySelectorAll('.tuing-card');
+            tuingElements.forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>
